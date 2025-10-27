@@ -3,14 +3,19 @@ const User = require("../modules/user/userModel");
 
 const protect = async (req, res, next) => {
     try {
-        const token = req.cookies.token;
-        if (!token) return res.status(401).json({ message: "Not authorized, no token" });
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.userId = decoded.userId;
+        const authHeader = req.headers.authorization;
+        if (!authHeader?.startsWith("Bearer ")) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+        const token = authHeader.split(" ")[1];
 
-        next();
+        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+            if (err) return res.status(403).json({ message: "Token expired or invalid" });
+            req.userId = decoded.id;
+            next();
+        });
     } catch (error) {
-        res.status(401).json({ message: "Not authorized" });
+        res.status(401).json({ message: "Not authorized", user: null });
     }
 };
 
