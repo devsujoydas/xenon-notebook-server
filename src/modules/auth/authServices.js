@@ -42,12 +42,6 @@ const logOutUserService = (res) => {
   res.clearCookie("refreshToken");
 };
 
-
-const fotgotPasswordService = (req, res) => {
-
-}
-
-
 const refreshAccessTokenService = (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken) throw new Error("No refresh token found");
@@ -59,10 +53,10 @@ const refreshAccessTokenService = (req, res) => {
   });
 };
 
+
 module.exports = {
   signUpUserService,
   signInUserService,
   logOutUserService,
-  fotgotPasswordService,
   refreshAccessTokenService,
 };

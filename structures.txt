@@ -16,11 +16,18 @@ backend/
 │   │   │   ├── noteRoutes.js
 │   │   │   ├── noteServices.js
 │   │   │   └── noteController.js
+│   │   ├── password/
+│   │   │   ├── passRoutes.js
+│   │   │   ├── passServices.js
+│   │   │   └── passController.js
 │   │   ├── user/
 │   │   │   ├── userModel.js
 │   │   │   ├── userRoutes.js
 │   │   │   ├── userServices.js
 │   │   │   └── userController.js
+│   ├── utils/
+│   │   ├── createToken.js
+│   │   ├── sendEmail.js
 ├── .env
 ├── package-lock.json
 ├── package.json
