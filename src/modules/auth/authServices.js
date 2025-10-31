@@ -1,15 +1,17 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("");
- 
+const createTokens = require("../../utils/createTokens");
+const User = require("../user/userModel");
+const { JWT_SECRET } = require("../../config/configs");
 
- 
+
 const signUpUserService = async (name, email, password, res) => {
   const exists = await User.findOne({ email });
   if (exists) throw new Error("Email already exists");
 
   const hashedPassword = await bcrypt.hash(password, 10);
   const user = await User.create({ name, email, password: hashedPassword });
+  console.log(user)
 
   const accessToken = createTokens(res, user._id);
 
@@ -19,7 +21,7 @@ const signUpUserService = async (name, email, password, res) => {
     accessToken,
   };
 };
- 
+
 const signInUserService = async (email, password, res) => {
   const user = await User.findOne({ email });
   if (!user) throw new Error("User not found");
@@ -35,24 +37,24 @@ const signInUserService = async (email, password, res) => {
     accessToken,
   };
 };
- 
+
 const logOutUserService = (res) => {
   res.clearCookie("refreshToken");
 };
- 
+
+
+const fotgotPasswordService = (req, res) => {
+
+}
+
+
 const refreshAccessTokenService = (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken) throw new Error("No refresh token found");
 
-  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
+  jwt.verify(refreshToken, JWT_SECRET, (err, decoded) => {
     if (err) throw new Error("Invalid refresh token");
-
-    const newAccessToken = jwt.sign(
-      { id: decoded.id },
-      process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "15m" }
-    );
-
+    const newAccessToken = jwt.sign({ id: decoded.id }, JWT_SECRET, { expiresIn: "15m" });
     res.json({ accessToken: newAccessToken });
   });
 };
@@ -61,5 +63,6 @@ module.exports = {
   signUpUserService,
   signInUserService,
   logOutUserService,
+  fotgotPasswordService,
   refreshAccessTokenService,
 };

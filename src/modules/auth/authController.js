@@ -1,3 +1,4 @@
+const { signUpUserService, signInUserService, logOutUserService, refreshAccessTokenService, fotgotPasswordService } = require("./authServices");
 
 
 const signUpUser = async (req, res) => {
@@ -29,6 +30,17 @@ const logOutUser = (req, res) => {
   }
 };
 
+
+const forgotPassword = (req, res) => {
+  try {
+    const result = fotgotPasswordService(req, res)
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+
 const refreshAccessToken = (req, res) => {
   try {
     const result = refreshAccessTokenService(req, res);
@@ -38,4 +50,10 @@ const refreshAccessToken = (req, res) => {
   }
 };
 
-module.exports = { signUpUser, signInUser, logOutUser, refreshAccessToken };
+module.exports = {
+  signUpUser,
+  signInUser,
+  logOutUser,
+  forgotPassword,
+  refreshAccessToken
+};

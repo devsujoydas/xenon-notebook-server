@@ -1,9 +1,11 @@
+const { JWT_SECRET } = require("../config/configs");
+
 const createTokens = (res, userId) => {
-    const accessToken = jwt.sign({ id: userId }, process.env.ACCESS_TOKEN_SECRET, {
+    const accessToken = jwt.sign({ id: userId }, JWT_SECRET, {
         expiresIn: "15m",
     });
 
-    const refreshToken = jwt.sign({ id: userId }, process.env.REFRESH_TOKEN_SECRET, {
+    const refreshToken = jwt.sign({ id: userId }, JWT_SECRET, {
         expiresIn: "7d",
     });
 
