@@ -1,0 +1,28 @@
+backend/
+│
+├── src/
+│   ├── config/
+│   │   ├── config.js
+│   │   └── db.js
+│   ├── middlewares/
+│   │   └── authMiddleware.js
+│   ├── modules/
+│   │   ├── auth/
+│   │   │   ├── authController.js
+│   │   │   ├── authRoutes.js
+│   │   │   └── authServices.js
+│   │   ├── note/
+│   │   │   ├── noteModel.js
+│   │   │   ├── noteRoutes.js
+│   │   │   ├── noteServices.js
+│   │   │   └── noteController.js
+│   │   ├── user/
+│   │   │   ├── userModel.js
+│   │   │   ├── userRoutes.js
+│   │   │   ├── userServices.js
+│   │   │   └── userController.js
+├── .env
+├── package-lock.json
+├── package.json
+└── server.js
+
