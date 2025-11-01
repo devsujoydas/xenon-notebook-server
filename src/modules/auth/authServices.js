@@ -48,7 +48,7 @@ const signInUserService = async (email, password, res) => {
 const logOutUserService = async (req, res) => {
   const refreshToken = req.cookies?.refreshToken;
 
-  if (!refreshToken) {
+  if (refreshToken) {
     res.clearCookie("refreshToken");
     return;
   }

@@ -41,7 +41,7 @@ const requestPasswordResetService = async (email) => {
       </p>
       <hr style="margin: 24px 0; border: none; border-top: 1px solid #eee;" />
       <p style="font-size: 12px; color: #999; text-align: center;">
-        © ${new Date().getFullYear()} GUIHE AND CO. All rights reserved.
+        © ${new Date().getFullYear()} Xenon-Notebook All rights reserved.
       </p>
     </div>
   </div>
@@ -49,6 +49,8 @@ const requestPasswordResetService = async (email) => {
   );
   return "OTP sent to your email";
 };
+
+
 
 const verifyOTPService = async (email, otp) => {
   const user = await User.findOne({ email });
@@ -61,6 +63,8 @@ const verifyOTPService = async (email, otp) => {
 
   return "OTP verified successfully";
 };
+
+
 
 const resetPasswordService = async (email, otp, newPassword) => {
   const user = await User.findOne({ email });
@@ -77,6 +81,7 @@ const resetPasswordService = async (email, otp, newPassword) => {
 
   return "Password reset successful";
 };
+
 
 
 module.exports = { 

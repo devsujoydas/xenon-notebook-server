@@ -3,13 +3,8 @@ const jwt = require("jsonwebtoken");
 
 
 const createTokens = (res, user) => {
-    const accessToken = jwt.sign({ id: user._id, email: user.email, role: user.role }, JWT_SECRET, {
-        expiresIn: "30m",
-    });
-
-    const refreshToken = jwt.sign({ id: user._id, email: user.email, role: user.role }, JWT_SECRET, {
-        expiresIn: "7d",
-    });
+    const accessToken = jwt.sign({ id: user._id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: "30m", });
+    const refreshToken = jwt.sign({ id: user._id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: "7d", });
 
     res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
