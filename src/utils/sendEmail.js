@@ -1,26 +1,42 @@
 const nodemailer = require("nodemailer");
 
-const sendEmail = async (to, subject, html) => {
-  try {
+/**
+ * @param {string} to
+ * @param {string} subject
+ * @param {string} html
+ * @param {string} [text]
+ */
+const sendEmail = async (to, subject, html, text) => {
+  try { 
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
     });
-
-    await transporter.sendMail({
-      from: `"Support Team" <${process.env.EMAIL_USER}>`,
+ 
+    const mailOptions = {
+      from: `"NerdTalks Support" <${process.env.EMAIL_USER}>`,
       to,
       subject,
       html,
-    });
+      text: text || "Please view this email in an HTML-compatible viewer.",
+      headers: {
+        "X-Priority": "3",
+        "X-Mailer": "Xenon-Notebook Mail Service",
+      },
+    };
+ 
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent:", info.messageId);
 
-    console.log("Email sent to", to);
+    return true;
   } catch (error) {
-    console.error("Email sending failed:", error.message);
-    throw new Error("Email not sent");
+    console.error("Email sending failed:", error);
+    throw new Error("Failed to send email. Please try again later.");
   }
 };
 

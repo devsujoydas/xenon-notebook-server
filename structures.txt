@@ -29,9 +29,11 @@ backend/
 │   ├── utils/
 │   │   ├── createToken.js
 │   │   ├── sendEmail.js
-│   │   └── verifyToken.js 
+│   │   └── verifyToken.js
 ├── .env
+├── app.js
 ├── package-lock.json
 ├── package.json
 └── server.js
+
 

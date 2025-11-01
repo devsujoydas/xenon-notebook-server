@@ -8,9 +8,10 @@ const userSchema = new mongoose.Schema(
     role: { type: String, enum: ["user", "admin"], default: "user", index: true, },
     refreshToken: { type: String },
     passwordReset: {
-      otp: { type: String },
-      otpExpires: { type: Date },
+      token: { type: String },
+      expires: { type: Date },
     },
+
   },
   { timestamps: true }
 );

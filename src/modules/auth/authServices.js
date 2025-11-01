@@ -56,7 +56,7 @@ const logOutUserService = async (req, res) => {
   const user = await User.findOne({ refreshToken });
   
   if (!user) {
-    res.clearCookie("refreshToken");
+    res?.clearCookie("refreshToken");
     return;
   }
 
