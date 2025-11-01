@@ -8,12 +8,14 @@ const { JWT_SECRET } = require("../../config/configs");
 const signUpUserService = async (name, email, password, res) => {
   const exists = await User.findOne({ email });
   if (exists) throw new Error("Email already exists");
-
+  
   const hashedPassword = await bcrypt.hash(password, 10);
   const user = await User.create({ name, email, password: hashedPassword });
-  console.log(user)
 
-  const accessToken = createTokens(res, user._id);
+  const { accessToken, refreshToken } = createTokens(res, user);
+
+  user.refreshToken = refreshToken;
+  await user.save();
 
   return {
     message: "User registered successfully",
@@ -22,6 +24,7 @@ const signUpUserService = async (name, email, password, res) => {
   };
 };
 
+
 const signInUserService = async (email, password, res) => {
   const user = await User.findOne({ email });
   if (!user) throw new Error("User not found");
@@ -29,7 +32,10 @@ const signInUserService = async (email, password, res) => {
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) throw new Error("Invalid credentials");
 
-  const accessToken = createTokens(res, user._id);
+  const { accessToken, refreshToken } = createTokens(res, user);
+
+  user.refreshToken = refreshToken;
+  await user.save();
 
   return {
     message: "Login successful",
@@ -38,8 +44,30 @@ const signInUserService = async (email, password, res) => {
   };
 };
 
-const logOutUserService = (res) => {
-  res.clearCookie("refreshToken");
+
+const logOutUserService = async (req, res) => {
+  const refreshToken = req.cookies?.refreshToken;
+
+  if (!refreshToken) {
+    res.clearCookie("refreshToken");
+    return;
+  }
+
+  const user = await User.findOne({ refreshToken });
+  
+  if (!user) {
+    res.clearCookie("refreshToken");
+    return;
+  }
+
+  user.refreshToken = null;
+  await user.save();
+
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+  });
 };
 
 const refreshAccessTokenService = (req, res) => {

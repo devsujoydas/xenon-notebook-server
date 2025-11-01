@@ -1,11 +1,13 @@
 const { JWT_SECRET } = require("../config/configs");
+const jwt = require("jsonwebtoken");
 
-const createTokens = (res, userId) => {
-    const accessToken = jwt.sign({ id: userId }, JWT_SECRET, {
-        expiresIn: "15m",
+
+const createTokens = (res, user) => {
+    const accessToken = jwt.sign({ id: user._id, email: user.email, role: user.role }, JWT_SECRET, {
+        expiresIn: "30m",
     });
 
-    const refreshToken = jwt.sign({ id: userId }, JWT_SECRET, {
+    const refreshToken = jwt.sign({ id: user._id, email: user.email, role: user.role }, JWT_SECRET, {
         expiresIn: "7d",
     });
 
@@ -16,7 +18,7 @@ const createTokens = (res, userId) => {
         maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    return accessToken;
+    return { accessToken, refreshToken };
 };
 
 module.exports = createTokens;

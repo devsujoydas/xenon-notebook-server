@@ -5,7 +5,8 @@ backend/
 │   │   ├── config.js
 │   │   └── db.js
 │   ├── middlewares/
-│   │   └── authMiddleware.js
+│   │   ├── verifyAdmin.js
+│   │   └── verifyUser.js
 │   ├── modules/
 │   │   ├── auth/
 │   │   │   ├── authController.js
@@ -28,6 +29,7 @@ backend/
 │   ├── utils/
 │   │   ├── createToken.js
 │   │   ├── sendEmail.js
+│   │   └── verifyToken.js 
 ├── .env
 ├── package-lock.json
 ├── package.json

@@ -1,13 +1,9 @@
-
-const User = require("./userModel");
-
+const { getProfileServices } = require("./userServices");
 
 
 const getProfile = async (req, res) => {
     try {
-        if (!req.userId) return res.status(401).json({ message: "Unauthorized" });
-        const user = await User.findById(req.userId).select("-password");
-        if (!user) return res.status(404).json({ message: "User not found" });
+        const user = await getProfileServices(req, res)
         res.json(user);
     } catch (error) {
         console.log("Error in getProfile:", error.message);
@@ -15,4 +11,5 @@ const getProfile = async (req, res) => {
     }
 };
 
-module.exports = {  getProfile };
+
+module.exports = { getProfile };

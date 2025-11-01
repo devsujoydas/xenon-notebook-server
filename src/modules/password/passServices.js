@@ -47,7 +47,6 @@ const requestPasswordResetService = async (email) => {
   </div>
   `
   );
-
   return "OTP sent to your email";
 };
 
