@@ -19,7 +19,7 @@ const sendEmail = async (to, subject, html, text) => {
     });
  
     const mailOptions = {
-      from: `"NerdTalks Support" <${process.env.EMAIL_USER}>`,
+      from: `"Xenon-Notebook Support" <${process.env.EMAIL_USER}>`,
       to,
       subject,
       html,

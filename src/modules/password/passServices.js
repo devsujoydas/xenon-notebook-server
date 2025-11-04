@@ -10,10 +10,17 @@ const createHash = (token) => {
 
 
 const requestPasswordResetService = async (email, frontendBaseUrl) => {
+  console.log(email)
+  
   const user = await User.findOne({ email });
+  // console.log(user)
+
+  return
   if (!user) {
     return "If an account with that email exists, a reset link has been sent.";
   }
+
+  console.log(user)
 
   const rawToken = crypto.randomBytes(32).toString('hex');
   const hashedToken = createHash(rawToken);
@@ -76,3 +83,4 @@ module.exports = {
   verifyResetTokenService,
   resetPasswordService
 };
+  

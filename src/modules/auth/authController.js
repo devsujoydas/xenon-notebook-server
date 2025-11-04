@@ -21,9 +21,22 @@ const signInUser = async (req, res) => {
   }
 };
 
+const signInWithGoogle = async (req, res) => {
+  try {
+    const formData = req.body;
+    let user = await userModel.findOne({ email: formData.email });
+    if (!user) user = await userModel.create(formData);
+    res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+}
+
 const logOutUser = (req, res) => {
   try {
-    logOutUserService(res);
+    console.log("clicked for logged out")
+    logOutUserService(req, res);
     res.json({ message: "Logged out successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -44,6 +57,7 @@ const refreshAccessToken = (req, res) => {
 module.exports = {
   signUpUser,
   signInUser,
+  signInWithGoogle,
   logOutUser,
   refreshAccessToken,
 };

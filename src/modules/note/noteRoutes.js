@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { createNote, getNotes, getNoteById, updateNote, deleteNote } = require("./noteController");
-const isVerifyUser = require("../../Middleware/verifyUser");
+const isVerifyUser = require("../../Middleware/isVerifyUser");
 
 
 router.get("/", isVerifyUser, getNotes)

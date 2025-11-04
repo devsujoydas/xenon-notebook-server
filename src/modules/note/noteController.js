@@ -6,20 +6,21 @@ const {
     deleteNoteService,
 } = require("./noteServices");
 
-const createNote = async (req, res) => {
-    const { title, content } = req.body
-    try {
-        const note = await createNoteService({ title, content, userId: req.user._id, });
-        res.status(201).json(note);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
 
 const getNotes = async (req, res) => {
     try {
         const notes = await getNotesService(req.user._id);
         res.json(notes);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+const createNote = async (req, res) => {
+    const { title, content } = req.body
+    try {
+        const note = await createNoteService({ title, content, userId: req.user._id, });
+        res.status(201).json(note);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

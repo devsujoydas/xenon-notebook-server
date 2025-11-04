@@ -5,8 +5,8 @@ const {
 } = require('./passServices');
 
 const requestPasswordReset = async (req, res) => {
-  try {
-    const frontendBaseUrl = process.env.FRONTEND_URL || 'https://localhost:5170/api';
+  try {  
+    const frontendBaseUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
     const message = await requestPasswordResetService(req.body.email, frontendBaseUrl);
     res.json({ success: true, message });
   } catch (err) {
