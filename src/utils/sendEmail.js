@@ -19,7 +19,7 @@ const sendEmail = async (to, subject, html, text) => {
     });
  
     const mailOptions = {
-      from: `"Xenon-Notebook Support" <${process.env.EMAIL_USER}>`,
+      from: `"Xenon-Notebook Support" <xenonnotebook@admin.com>`,
       to,
       subject,
       html,
@@ -28,7 +28,7 @@ const sendEmail = async (to, subject, html, text) => {
         "X-Priority": "3",
         "X-Mailer": "Xenon-Notebook Mail Service",
       },
-    };
+    }; 
  
     const info = await transporter.sendMail(mailOptions);
     console.log("Email sent:", info.messageId);

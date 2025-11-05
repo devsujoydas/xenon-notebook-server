@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../user/userModel');
 const sendEmail = require('../../utils/sendEmail');
 const passwordResetTemplate = require('../../utils/emailTemplates/passwordResetTemplate');
+const { FRONTEND_URL } = require('../../config/configs');
 
 const createHash = (token) => {
   return crypto.createHash('sha256').update(token).digest('hex');
@@ -21,12 +22,12 @@ const changeUserPasswordService = async (userId, oldPassword, newPassword) => {
   return "Password updated successfully";
 };
 
+
+
 const requestPasswordResetService = async (email) => {
-
   const user = await User.findOne({ email });
-
   if (!user) {
-    return "If an account with that email exists, a reset link has been sent.";
+    return "User not found"
   }
 
   const rawToken = crypto.randomBytes(32).toString('hex');
@@ -38,7 +39,7 @@ const requestPasswordResetService = async (email) => {
   };
   await user.save();
 
-  const resetUrl = `https://xenonnotebook.netlify.app/reset-password?token=${rawToken}`;
+  const resetUrl = `${FRONTEND_URL}/reset-password?token=${rawToken}`;
 
   await sendEmail(
     email,
@@ -48,6 +49,7 @@ const requestPasswordResetService = async (email) => {
 
   return "If an account with that email exists, a reset link has been sent.";
 };
+
 
 const verifyResetTokenService = async (rawToken) => {
   const hashedToken = createHash(rawToken);
@@ -60,6 +62,7 @@ const verifyResetTokenService = async (rawToken) => {
   if (!user) throw new Error('Invalid or expired reset link');
   return 'Reset link valid';
 };
+
 
 const resetPasswordService = async (token, newPassword, confirmNewPassword) => {
 

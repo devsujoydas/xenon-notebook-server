@@ -47,7 +47,7 @@ const signInUserService = async (email, password, res) => {
 
 const logOutUserService = async (req, res) => {
   const refreshToken = req.cookies?.refreshToken;
-  
+
   if (refreshToken) {
     res.clearCookie("refreshToken");
     return;
@@ -73,10 +73,10 @@ const logOutUserService = async (req, res) => {
 const refreshAccessTokenService = (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken) throw new Error("No refresh token found");
-
+  console.log("refresh e hit korlo ree")
   jwt.verify(refreshToken, JWT_SECRET, (err, decoded) => {
     if (err) throw new Error("Invalid refresh token");
-    const newAccessToken = jwt.sign({ id: decoded.id }, JWT_SECRET, { expiresIn: "15m" });
+    const newAccessToken = jwt.sign({ id: decoded.id }, JWT_SECRET, { expiresIn: "10s" });
     res.json({ accessToken: newAccessToken });
   });
 };

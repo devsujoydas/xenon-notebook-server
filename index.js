@@ -3,7 +3,7 @@ const cors = require("cors");
 const express = require("express");
 const cookieParser = require("cookie-parser");
 
-const { PORT } = require("./src/config/configs");
+const { PORT, FRONTEND_URL } = require("./src/config/configs");
 const connectDB = require("./src/config/db");
 const allRoutes = require("./app");
 
@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(cors({
-    origin: ["http://localhost:5173","https://xenonnotebook.netlify.app"],
+    origin: ["http://localhost:5173",`${FRONTEND_URL}`],
     credentials: true, 
 }));
 
