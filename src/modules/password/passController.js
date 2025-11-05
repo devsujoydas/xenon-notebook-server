@@ -1,11 +1,12 @@
 const {
   requestPasswordResetService,
   verifyResetTokenService,
-  resetPasswordService
+  resetPasswordService,
+  changeUserPasswordService
 } = require('./passServices');
 
 const requestPasswordReset = async (req, res) => {
-  try {  
+  try {
     const frontendBaseUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
     const message = await requestPasswordResetService(req.body.email, frontendBaseUrl);
     res.json({ success: true, message });
@@ -37,4 +38,19 @@ const resetPassword = async (req, res) => {
   }
 };
 
-module.exports = { requestPasswordReset, verifyResetToken, resetPassword };
+const changePassword = async (req, res) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+
+    if (!oldPassword || !newPassword)
+      return res.status(400).json({ message: "Both passwords are required" });
+
+    const message = await changeUserPasswordService(req.user._id, oldPassword, newPassword);
+    res.status(200).json({ message });
+  } catch (err) {
+    console.error("Change Password Error:", err);
+    res.status(400).json({ message: err.message || "Server Error" });
+  }
+};
+
+module.exports = { requestPasswordReset, verifyResetToken, resetPassword, changePassword };

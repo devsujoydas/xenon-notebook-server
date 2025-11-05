@@ -16,7 +16,7 @@ app.use(cookieParser());
 
 app.use(cors({
     origin: "http://localhost:5173",
-    credentials: true,
+    credentials: true, 
 }));
 
 app.get("/", (req, res) => res.send("Notes API is running..."));
@@ -27,3 +27,4 @@ const Port = PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${Port}`)
 });
+ 

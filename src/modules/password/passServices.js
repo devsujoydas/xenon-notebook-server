@@ -8,10 +8,22 @@ const createHash = (token) => {
   return crypto.createHash('sha256').update(token).digest('hex');
 };
 
+const changeUserPasswordService = async (userId, oldPassword, newPassword) => {
+  const user = await User.findById(userId).select("+password");
+  if (!user || !user.password) throw new Error("User not found or password missing");
+
+  const isMatch = await bcrypt.compare(oldPassword, user.password);
+  if (!isMatch) throw new Error("Old password is incorrect");
+
+  user.password = await bcrypt.hash(newPassword, 10);
+  await user.save();
+
+  return "Password updated successfully";
+};
 
 const requestPasswordResetService = async (email, frontendBaseUrl) => {
   console.log(email)
-  
+
   const user = await User.findOne({ email });
   // console.log(user)
 
@@ -81,6 +93,6 @@ const resetPasswordService = async (token, newPassword, confirmNewPassword) => {
 module.exports = {
   requestPasswordResetService,
   verifyResetTokenService,
-  resetPasswordService
+  resetPasswordService,
+  changeUserPasswordService
 };
-  
