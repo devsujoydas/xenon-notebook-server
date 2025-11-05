@@ -7,8 +7,7 @@ const {
 
 const requestPasswordReset = async (req, res) => {
   try {
-    const frontendBaseUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-    const message = await requestPasswordResetService(req.body.email, frontendBaseUrl);
+    const message = await requestPasswordResetService(req.body.email);
     res.json({ success: true, message });
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });
