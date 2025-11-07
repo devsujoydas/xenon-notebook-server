@@ -8,9 +8,10 @@ const {
 
 
 const getNotes = async (req, res) => {
+    
     try {
         const notes = await getNotesService(req.user._id);
-        res.json(notes);
+        res.json(notes); 
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

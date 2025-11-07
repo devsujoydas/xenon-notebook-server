@@ -1,15 +1,15 @@
 const Note = require("./noteModel");
- 
+
 const createNoteService = async ({ title, content, userId }) => {
     return await Note.create({ title, content, authorId: userId });
 };
- 
+
 const getNotesService = async (userId) => {
     return await Note.find({ authorId: userId })
         .sort({ createdAt: -1 })
         .populate("authorId", "name email");
 };
- 
+
 const getNoteByIdService = async (id, userId) => {
     return await Note.findOne({ _id: id, authorId: userId })
         .populate("authorId", "name email");

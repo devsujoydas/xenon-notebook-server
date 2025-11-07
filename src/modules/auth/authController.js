@@ -35,7 +35,7 @@ const signInWithGoogle = async (req, res) => {
 
 const logOutUser = (req, res) => {
   try {
-    console.log("clicked for logged out")
+    // console.log("clicked for logged out")
     logOutUserService(req, res);
     res.json({ message: "Logged out successfully" });
   } catch (error) {

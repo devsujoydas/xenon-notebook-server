@@ -42,7 +42,7 @@ const signInUserService = async (email, password, res) => {
     user: { _id: user._id, name: user.name, email: user.email },
     accessToken,
   };
-};
+};  
 
 
 const logOutUserService = async (req, res) => {
@@ -73,10 +73,12 @@ const logOutUserService = async (req, res) => {
 const refreshAccessTokenService = (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken) throw new Error("No refresh token found");
-  console.log("refresh e hit korlo ree")
+  
+  // console.log("refresh e hit korlo ree abar korlo")
+
   jwt.verify(refreshToken, JWT_SECRET, (err, decoded) => {
     if (err) throw new Error("Invalid refresh token");
-    const newAccessToken = jwt.sign({ id: decoded.id }, JWT_SECRET, { expiresIn: "10s" });
+    const newAccessToken = jwt.sign({ id: decoded.id }, JWT_SECRET, { expiresIn: "10m" });
     res.json({ accessToken: newAccessToken });
   });
 };

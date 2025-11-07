@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 
 
 const createTokens = (res, user) => {
-    const accessToken = jwt.sign({ id: user._id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: "10s", });
+    const accessToken = jwt.sign({ id: user._id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: "10m", });
     const refreshToken = jwt.sign({ id: user._id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: "7d", });
     
     console.log("Access token nite ailo re")
